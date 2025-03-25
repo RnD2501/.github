@@ -1,0 +1,8 @@
+{
+    "name": "Teams PR Notification",
+    "description": "Sends info about PRs to Teams channel",
+    "iconName": "alert",
+    "categories": [
+        "automation"
+    ]
+}

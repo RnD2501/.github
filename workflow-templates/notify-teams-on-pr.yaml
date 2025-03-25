@@ -1,0 +1,35 @@
+name: notify Teams on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+
+jobs:
+  notify-on-teams:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Message to Teams Channel
+        run: |
+         curl -H "Content-Type: application/json" -d '{
+            "text": "**New Pull Request Activity**",
+            "sections": [{
+              "activityTitle": "${{ github.event.pull_request.title }}",
+              "activitySubtitle": "Created by ${{ github.event.pull_request.user.login }}",
+              "activityImage": "${{ github.event.pull_request.user.avatar_url }}",
+              "facts": [{
+                "name": "Repository:",
+                "value": "${{ github.repository }}"
+              }],
+              "markdown": true
+            }],
+            "potentialAction": [{
+              "@type": "OpenUri",
+              "name": "View Pull Request",
+              "targets": [{
+                "os": "default",
+                "uri": "${{ github.event.pull_request.html_url }}"
+              }]
+            }]
+          }' "${{ vars.TEAMS_WEBHOOK_URL_PR }}"
