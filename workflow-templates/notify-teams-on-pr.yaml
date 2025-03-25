@@ -4,7 +4,12 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened]
+  push:
+    tags:
+      - "notify"
+  pull_request_review:
+    types: [submitted, dismissed, edited]
 
 jobs:
   notify-on-teams:
